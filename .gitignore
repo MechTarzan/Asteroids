@@ -8,3 +8,6 @@ wheels/
 
 # Virtual environments
 .venv
+
+# ignores game states
+game_state.jsonl
