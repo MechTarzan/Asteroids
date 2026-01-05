@@ -6,6 +6,7 @@
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from logger import log_state
+from player import Player
 
 # main function
 def main():
@@ -15,9 +16,18 @@ def main():
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
 
-    # initializing pygame and displaying GUI
+    # initializing pygame and screen settings
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    
+    # initialize clock
+    clock = pygame.time.Clock()
+    dt = 0
+
+    # initialize player
+    x = SCREEN_WIDTH/2
+    y = SCREEN_HEIGHT/2
+    player = Player(x,y)
 
     # infinite while loop "Ctrl+C" closes the program
     while True:
@@ -29,11 +39,15 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
-        # displays a black sreen
-        screen.fill("black")
+        # update screen state
+        screen.fill("black")    #sets black screen
+        player.update(dt)       #Checks to rotate ship
+        player.draw(screen)     #draws the screen        
 
-        # Reloads screen *Keep last!!!!*
-        pygame.display.flip()
+        # *Keep last!!!!*
+        pygame.display.flip()     # reloads windows
+        dt = clock.tick(60)/1000  # sets clock to 60 FPS and saves dt
+        
 
 if __name__ == "__main__":
     main()
