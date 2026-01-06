@@ -7,6 +7,8 @@ import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from logger import log_state
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 # main function
 def main():
@@ -24,10 +26,23 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
 
+    # creating player groups
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+
     # initialize player
     x = SCREEN_WIDTH/2
     y = SCREEN_HEIGHT/2
     player = Player(x,y)
+
+    # creating asteroid group
+    asteroids = pygame.sprite.Group()
+    Asteroid.containers = (asteroids, updatable, drawable)
+
+    # creating asteroid field
+    AsteroidField.containers = (updatable,)
+    AsteroidField()
 
     # infinite while loop "Ctrl+C" closes the program
     while True:
@@ -41,8 +56,11 @@ def main():
 
         # update screen state
         screen.fill("black")    #sets black screen
-        player.update(dt)       #Checks to rotate ship
-        player.draw(screen)     #draws the screen        
+        updatable.update(dt)    #Checks to rotate ship
+        
+        # draw sprites
+        for sprite in drawable:
+            sprite.draw(screen)     #draws the screen        
 
         # *Keep last!!!!*
         pygame.display.flip()     # reloads windows
