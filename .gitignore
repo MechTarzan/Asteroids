@@ -9,5 +9,6 @@ wheels/
 # Virtual environments
 .venv
 
-# ignores game states
+# ignores game states and events
 game_state.jsonl
+game_events.jsonl
